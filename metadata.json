@@ -1,0 +1,6 @@
+{
+  "name": "General Store",
+  "description": "Annil General Store in Kharendrapur, Shivaraj-3, Kapilvastu, Lumbini. Fast local delivery for fresh groceries and daily essentials. Phone: +977 9762592813.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>General Store</title>
+    <meta name="description" content="Annil General Store in Kharendrapur, Shivaraj-3, Kapilvastu, Lumbini. Fast local delivery for fresh groceries and daily essentials. Phone: +977 9762592813." />
+    <meta property="og:title" content="General Store" />
+    <meta property="og:description" content="Annil General Store in Kharendrapur, Shivaraj-3, Kapilvastu, Lumbini. Fast local delivery for fresh groceries and daily essentials. Phone: +977 9762592813." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      (function () {
+        try {
+          function ensureFetchSetter(obj) {
+            if (!obj) return;
+            try {
+              var desc = Object.getOwnPropertyDescriptor(obj, 'fetch');
+              if (desc && desc.get && !desc.set && desc.configurable !== false) {
+                var currentFetch = desc.get.call(obj);
+                Object.defineProperty(obj, 'fetch', {
+                  get: function () {
+                    return currentFetch;
+                  },
+                  set: function (newFetch) {
+                    currentFetch = newFetch;
+                  },
+                  configurable: true,
+                  enumerable: desc.enumerable !== false,
+                });
+              }
+            } catch (e) {}
+          }
+
+          ensureFetchSetter(window);
+          if (typeof Window !== 'undefined' && Window.prototype) {
+            ensureFetchSetter(Window.prototype);
+          }
+          if (typeof globalThis !== 'undefined') {
+            ensureFetchSetter(globalThis);
+          }
+
+          var originalDefineProperty = Object.defineProperty;
+          Object.defineProperty = function (target, prop, descriptor) {
+            if (
+              (target === window ||
+                (typeof Window !== 'undefined' && target === Window.prototype) ||
+                (typeof globalThis !== 'undefined' && target === globalThis)) &&
+              prop === 'fetch'
+            ) {
+              if (descriptor && descriptor.get && !descriptor.set && descriptor.configurable !== false) {
+                var getter = descriptor.get;
+                var assignedValue;
+                var isAssigned = false;
+                var safeDescriptor = Object.assign({}, descriptor, {
+                  get: function () {
+                    return isAssigned ? assignedValue : getter.call(this);
+                  },
+                  set: function (val) {
+                    assignedValue = val;
+                    isAssigned = true;
+                  },
+                  configurable: true,
+                });
+                return originalDefineProperty.call(Object, target, prop, safeDescriptor);
+              }
+            }
+            return originalDefineProperty.apply(Object, arguments);
+          };
+        } catch (err) {
+          console.warn('Fetch setter safeguard initialisation:', err);
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

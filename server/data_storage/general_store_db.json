@@ -1,0 +1,893 @@
+{
+  "users": [
+    {
+      "id": "usr-admin-1",
+      "name": "Store Manager (Admin)",
+      "email": "admin@generalstore.com",
+      "password": "$2b$10$1D4GoRt2KvzHc8cWx8AQqeHE8TKNKxvgzcdQG5ULtqZ7kvw2E7Ojm",
+      "role": "ADMIN",
+      "phone": "+1 (555) 234-5678",
+      "addresses": [
+        {
+          "id": "addr-admin-1",
+          "label": "Store Headquarters",
+          "street": "45 Market Square",
+          "city": "Metro City",
+          "area": "Downtown District",
+          "landmark": "Opposite Community Park",
+          "pincode": "10001",
+          "isDefault": true
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-07-12T07:56:44.293Z",
+      "updatedAt": "2026-09-10T07:56:44.293Z"
+    },
+    {
+      "id": "usr-customer-1",
+      "name": "Sarah Jenkins",
+      "email": "customer@example.com",
+      "password": "$2b$10$1D4GoRt2KvzHc8cWx8AQqeXNlzvMeSO9dxmFy2Ll7mC2osPjONvQm",
+      "role": "CUSTOMER",
+      "phone": "+1 (555) 890-1234",
+      "addresses": [
+        {
+          "id": "addr-cust-1",
+          "label": "Home",
+          "street": "12 Willow Lane, Apt 4B",
+          "city": "Metro City",
+          "area": "Northside Suburbs",
+          "landmark": "Near Metro Station",
+          "pincode": "10005",
+          "isDefault": true
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-08-11T07:56:44.293Z",
+      "updatedAt": "2026-09-10T07:56:44.293Z"
+    },
+    {
+      "id": "usr-customer-2",
+      "name": "David Miller",
+      "email": "david.m@example.com",
+      "password": "$2b$10$1D4GoRt2KvzHc8cWx8AQqeXNlzvMeSO9dxmFy2Ll7mC2osPjONvQm",
+      "role": "CUSTOMER",
+      "phone": "+1 (555) 432-8765",
+      "addresses": [
+        {
+          "id": "addr-cust-2",
+          "label": "Apartment",
+          "street": "78 River Road",
+          "city": "Metro City",
+          "area": "Riverside Colony",
+          "landmark": "Beside Clocktower",
+          "pincode": "10003",
+          "isDefault": true
+        }
+      ],
+      "isActive": true,
+      "createdAt": "2026-08-27T07:56:44.293Z",
+      "updatedAt": "2026-09-10T07:56:44.293Z"
+    },
+    {
+      "name": "Test User",
+      "email": "test12345@example.com",
+      "password": "$2b$10$VXy2r6x5Pub5Ptuz9nGTZ.6Zdhj.95lwE0btaanq0gShsUucSCCqW",
+      "role": "CUSTOMER",
+      "phone": "1234567890",
+      "addresses": [],
+      "isActive": true,
+      "id": "usr-1789027642253-8l0uz",
+      "createdAt": "2026-09-10T08:07:22.254Z",
+      "updatedAt": "2026-09-10T08:07:22.254Z"
+    },
+    {
+      "name": "Priya Patel",
+      "email": "priya.new@example.com",
+      "password": "$2b$10$YktWyvXN3fu/2EUM3/sEHuTD6apBFMOYyDgrhqN/GidP/GNcP.Gfm",
+      "role": "CUSTOMER",
+      "phone": "9811223344",
+      "addresses": [],
+      "isActive": true,
+      "id": "usr-1789027752347-zthot",
+      "createdAt": "2026-09-10T08:09:12.347Z",
+      "updatedAt": "2026-09-10T08:09:12.347Z"
+    }
+  ],
+  "products": [
+    {
+      "id": "prod-1",
+      "name": "Royal Basmati Rice Super Long Grain (5kg)",
+      "description": "Aged Himalayan long grain basmati rice with exquisite aroma and fluffy non-sticky texture. Perfect for biryani, pulao, and everyday gourmet dinners.",
+      "brand": "Heritage Farm",
+      "category": "Rice & Grains",
+      "price": 18.99,
+      "discountPrice": 15.49,
+      "stock": 45,
+      "unit": "5 kg bag",
+      "images": [
+        "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80",
+        "https://images.unsplash.com/photo-1536304993881-ff6e9eefa2a6?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 34,
+      "isFeatured": true,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Rice",
+        "Pantry",
+        "Gluten-Free",
+        "Basmati"
+      ],
+      "createdAt": "2026-08-11T07:56:44.087Z"
+    },
+    {
+      "id": "prod-2",
+      "name": "Pure Cold-Pressed Mustard Cooking Oil (1L)",
+      "description": "Naturally extracted cold-pressed mustard oil with a robust pungent aroma and traditional flavor. Rich in Omega-3 and natural antioxidants.",
+      "brand": "Kisan Gold",
+      "category": "Cooking Oil",
+      "price": 6.5,
+      "discountPrice": 5.25,
+      "stock": 60,
+      "unit": "1 Litre bottle",
+      "images": [
+        "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 22,
+      "isFeatured": true,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Cooking Oil",
+        "Pure",
+        "Organic"
+      ],
+      "createdAt": "2026-08-16T07:56:44.087Z"
+    },
+    {
+      "id": "prod-3",
+      "name": "Premium Yellow Lentils / Moong Dal (1kg)",
+      "description": "Triple-cleaned, unpolished yellow moong dal packed with protein and easily digestible fiber. Cooks quickly and smoothly.",
+      "brand": "Nature Valley Organics",
+      "category": "Pulses",
+      "price": 4.2,
+      "discountPrice": 3.5,
+      "stock": 50,
+      "unit": "1 kg pack",
+      "images": [
+        "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 19,
+      "isFeatured": false,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Dal",
+        "Lentils",
+        "Protein",
+        "Pulses"
+      ],
+      "createdAt": "2026-08-21T07:56:44.087Z"
+    },
+    {
+      "id": "prod-4",
+      "name": "Fine Granulated Pure Cane Sugar (2kg)",
+      "description": "Pure sparkling white cane sugar, crystal clear with rapid dissolving capability for beverages, desserts, and bakery.",
+      "brand": "Sweet Valley",
+      "category": "Groceries",
+      "price": 3.8,
+      "discountPrice": 3.2,
+      "stock": 80,
+      "unit": "2 kg bag",
+      "images": [
+        "https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.6,
+      "reviewsCount": 15,
+      "isFeatured": false,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Sugar",
+        "Groceries",
+        "Baking"
+      ],
+      "createdAt": "2026-08-01T07:56:44.087Z"
+    },
+    {
+      "id": "prod-5",
+      "name": "Aromatic Highland CTC Black Tea (500g)",
+      "description": "Rich, brisk, and full-bodied black tea leaves picked from the high mountain slopes. Produces an invigorating rich amber cup.",
+      "brand": "Mountain Mist",
+      "category": "Beverages",
+      "price": 7.9,
+      "discountPrice": 6.4,
+      "stock": 35,
+      "unit": "500 g carton",
+      "images": [
+        "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 42,
+      "isFeatured": true,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Tea",
+        "Chai",
+        "Beverage"
+      ],
+      "createdAt": "2026-08-26T07:56:44.087Z"
+    },
+    {
+      "id": "prod-6",
+      "name": "Crispy Digestive Whole Wheat Biscuits (Pack of 3)",
+      "description": "Nutritious crunchy whole wheat biscuits with high dietary fiber and zero trans fats. Great tea companion.",
+      "brand": "Baker's Choice",
+      "category": "Biscuits",
+      "price": 4.5,
+      "discountPrice": 3.75,
+      "stock": 40,
+      "unit": "3 x 200g pack",
+      "images": [
+        "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.5,
+      "reviewsCount": 28,
+      "isFeatured": false,
+      "isBestSeller": false,
+      "isNewArrival": true,
+      "isActive": true,
+      "tags": [
+        "Biscuits",
+        "Snacks",
+        "Tea-time"
+      ],
+      "createdAt": "2026-09-05T07:56:44.087Z"
+    },
+    {
+      "id": "prod-7",
+      "name": "Spicy Masala Instant Noodles (Pack of 8)",
+      "description": "Quick 2-minute instant noodles infused with authentic savory spices, dehydrated vegetables, and garlic chili oil seasoning.",
+      "brand": "QuickBite",
+      "category": "Snacks",
+      "price": 5.6,
+      "discountPrice": 4.5,
+      "stock": 90,
+      "unit": "8-pack (560g)",
+      "images": [
+        "https://images.unsplash.com/photo-1612927601601-6638404737ce?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 51,
+      "isFeatured": true,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Noodles",
+        "Snacks",
+        "Quick Meal"
+      ],
+      "createdAt": "2026-08-29T07:56:44.087Z"
+    },
+    {
+      "id": "prod-8",
+      "name": "Pure Ground Turmeric Powder (250g)",
+      "description": "Bright golden organic ground turmeric with 3.5%+ active curcumin content. Adds vibrant golden color and antioxidant goodness.",
+      "brand": "Spiceland",
+      "category": "Spices",
+      "price": 3.2,
+      "discountPrice": 2.8,
+      "stock": 65,
+      "unit": "250g jar",
+      "images": [
+        "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 16,
+      "isFeatured": false,
+      "isBestSeller": false,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Spices",
+        "Turmeric",
+        "Organic"
+      ],
+      "createdAt": "2026-08-23T07:56:44.087Z"
+    },
+    {
+      "id": "prod-9",
+      "name": "Herbal Nourishing Soap with Neem & Aloe (4x100g)",
+      "description": "Gentle natural cleansing bath bar enriched with antibacterial neem leaves and soothing organic aloe vera extract.",
+      "brand": "GlowHerb",
+      "category": "Personal Care",
+      "price": 4.8,
+      "discountPrice": 3.9,
+      "stock": 55,
+      "unit": "Pack of 4 bars",
+      "images": [
+        "https://images.unsplash.com/photo-1600857544200-b2f666a9a2ec?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.6,
+      "reviewsCount": 24,
+      "isFeatured": false,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Soap",
+        "Personal Care",
+        "Herbal"
+      ],
+      "createdAt": "2026-08-31T07:56:44.087Z"
+    },
+    {
+      "id": "prod-10",
+      "name": "Herbal Anti-Dandruff Tea Tree Shampoo (400ml)",
+      "description": "Sulfate-free invigorating scalp shampoo with tea tree essential oil, rosemary extract, and provitamin B5.",
+      "brand": "GlowHerb",
+      "category": "Personal Care",
+      "price": 8.5,
+      "discountPrice": 6.99,
+      "stock": 30,
+      "unit": "400 ml bottle",
+      "images": [
+        "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 18,
+      "isFeatured": true,
+      "isBestSeller": false,
+      "isNewArrival": true,
+      "isActive": true,
+      "tags": [
+        "Shampoo",
+        "Haircare",
+        "Personal Care"
+      ],
+      "createdAt": "2026-09-07T07:56:44.087Z"
+    },
+    {
+      "id": "prod-11",
+      "name": "Total Care Fresh Mint Toothpaste (Pack of 2 x 150g)",
+      "description": "Advanced enamel protection and 12-hour cavity defense formula with refreshing herbal spearmint cooling crystals.",
+      "brand": "DentShield",
+      "category": "Personal Care",
+      "price": 5.2,
+      "discountPrice": 4.2,
+      "stock": 75,
+      "unit": "Twin pack (300g)",
+      "images": [
+        "https://images.unsplash.com/photo-1588776814546-1ffcf47267a5?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 31,
+      "isFeatured": false,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Toothpaste",
+        "Dental",
+        "Personal Care"
+      ],
+      "createdAt": "2026-08-19T07:56:44.087Z"
+    },
+    {
+      "id": "prod-12",
+      "name": "Ultra Power Citrus Dishwashing Liquid Gel (1 Litre)",
+      "description": "Tough on grease yet gentle on hands. Concentrated lemon gel cuts through burnt-on food stains with zero residue.",
+      "brand": "Sparkle Clean",
+      "category": "Cleaning Products",
+      "price": 4.9,
+      "discountPrice": 3.99,
+      "stock": 45,
+      "unit": "1 L pump bottle",
+      "images": [
+        "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 29,
+      "isFeatured": false,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Dishwashing",
+        "Cleaning",
+        "Kitchen"
+      ],
+      "createdAt": "2026-08-27T07:56:44.087Z"
+    },
+    {
+      "id": "prod-13",
+      "name": "Active Oxy Laundry Detergent Powder (3kg)",
+      "description": "High efficiency deep stain fighting powder with floral freshness and color protection technology. Suitable for bucket & machine wash.",
+      "brand": "Sparkle Clean",
+      "category": "Cleaning Products",
+      "price": 11.5,
+      "discountPrice": 9.8,
+      "stock": 35,
+      "unit": "3 kg pouch",
+      "images": [
+        "https://images.unsplash.com/photo-1610557892470-55d9e80c0bce?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 21,
+      "isFeatured": true,
+      "isBestSeller": false,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Detergent",
+        "Laundry",
+        "Cleaning"
+      ],
+      "createdAt": "2026-08-25T07:56:44.087Z"
+    },
+    {
+      "id": "prod-14",
+      "name": "Farm Fresh Full Cream Milk (1 Litre)",
+      "description": "Pasteurized, homogenized pure cow milk packed with calcium, vitamins A & D. Delivered chilled daily from trusted local dairies.",
+      "brand": "Clover Meadow",
+      "category": "Dairy Products",
+      "price": 2.1,
+      "discountPrice": 1.89,
+      "stock": 25,
+      "unit": "1 Litre carton",
+      "images": [
+        "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 47,
+      "isFeatured": true,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Milk",
+        "Dairy",
+        "Fresh"
+      ],
+      "createdAt": "2026-09-09T07:56:44.087Z"
+    },
+    {
+      "id": "prod-15",
+      "name": "Salted Roasted Cashews & Almonds Mix (250g)",
+      "description": "Crunchy oven-roasted premium California almonds and W240 whole cashews lightly dusted with Himalayan pink salt.",
+      "brand": "NutriDelight",
+      "category": "Snacks",
+      "price": 8.9,
+      "discountPrice": 7.5,
+      "stock": 40,
+      "unit": "250g resealable pouch",
+      "images": [
+        "https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.8,
+      "reviewsCount": 26,
+      "isFeatured": true,
+      "isBestSeller": false,
+      "isNewArrival": true,
+      "isActive": true,
+      "tags": [
+        "Dry Fruits",
+        "Nuts",
+        "Healthy Snack"
+      ],
+      "createdAt": "2026-09-06T07:56:44.087Z"
+    },
+    {
+      "id": "prod-16",
+      "name": "Executive Hardcover Ruled Notebook A5 (192 Pages)",
+      "description": "Durable vegan leather cover notebook with 100gsm ink-proof smooth ivory paper, elastic closure, and ribbon bookmark.",
+      "brand": "ClassMate",
+      "category": "Stationery",
+      "price": 4.99,
+      "discountPrice": 3.99,
+      "stock": 60,
+      "unit": "1 piece",
+      "images": [
+        "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.7,
+      "reviewsCount": 14,
+      "isFeatured": false,
+      "isBestSeller": false,
+      "isNewArrival": true,
+      "isActive": true,
+      "tags": [
+        "Notebook",
+        "Stationery",
+        "Office"
+      ],
+      "createdAt": "2026-09-08T07:56:44.087Z"
+    },
+    {
+      "id": "prod-17",
+      "name": "Heavy Duty Kitchen Foil Roll (30 Metres)",
+      "description": "Food grade non-stick aluminum foil with micro-embossed surface for lock-in moisture, grilling, baking, and fresh wrapping.",
+      "brand": "WrapRight",
+      "category": "Household Items",
+      "price": 5.5,
+      "discountPrice": 4.75,
+      "stock": 35,
+      "unit": "30m roll",
+      "images": [
+        "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.6,
+      "reviewsCount": 11,
+      "isFeatured": false,
+      "isBestSeller": false,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Foil",
+        "Kitchen",
+        "Household"
+      ],
+      "createdAt": "2026-08-13T07:56:44.087Z"
+    },
+    {
+      "id": "prod-18",
+      "name": "Gentle Chamomile Baby Wipes (Pack of 80)",
+      "description": "99% pure water wipes with organic chamomile and aloe vera. Hypoallergenic, alcohol-free, and dermatologically tested.",
+      "brand": "SoftCuddles",
+      "category": "Baby Products",
+      "price": 4.2,
+      "discountPrice": 3.49,
+      "stock": 50,
+      "unit": "80 wipes flip-top pack",
+      "images": [
+        "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=800&q=80"
+      ],
+      "rating": 4.9,
+      "reviewsCount": 33,
+      "isFeatured": true,
+      "isBestSeller": true,
+      "isNewArrival": false,
+      "isActive": true,
+      "tags": [
+        "Baby",
+        "Wipes",
+        "Gentle"
+      ],
+      "createdAt": "2026-09-01T07:56:44.087Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "cat-1",
+      "name": "Groceries",
+      "slug": "groceries",
+      "description": "Daily pantry staples, flour, sugar, and daily essentials",
+      "image": "https://images.unsplash.com/photo-1542838132-92c53300491e?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 42
+    },
+    {
+      "id": "cat-2",
+      "name": "Rice & Grains",
+      "slug": "rice-grains",
+      "description": "Premium aromatic Basmati rice, jasmine rice, wheat, and oats",
+      "image": "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 28
+    },
+    {
+      "id": "cat-3",
+      "name": "Pulses",
+      "slug": "pulses",
+      "description": "Nutritious lentils, chickpeas, yellow dal, and kidney beans",
+      "image": "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 20
+    },
+    {
+      "id": "cat-4",
+      "name": "Cooking Oil",
+      "slug": "cooking-oil",
+      "description": "Pure mustard, sunflower, olive oil, and vegetable ghee",
+      "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 16
+    },
+    {
+      "id": "cat-5",
+      "name": "Spices",
+      "slug": "spices",
+      "description": "Fresh ground turmeric, cumin, chili, garam masala, and herbs",
+      "image": "https://images.unsplash.com/photo-1596040033229-a9821ebd058d?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 35
+    },
+    {
+      "id": "cat-6",
+      "name": "Snacks",
+      "slug": "snacks",
+      "description": "Potato crisps, salted nuts, roasted chips, and savory bites",
+      "image": "https://images.unsplash.com/photo-1566478989037-eec170784d0b?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 45
+    },
+    {
+      "id": "cat-7",
+      "name": "Biscuits",
+      "slug": "biscuits",
+      "description": "Digestive cookies, cream crackers, sweet tea biscuits, and wafers",
+      "image": "https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 24
+    },
+    {
+      "id": "cat-8",
+      "name": "Beverages",
+      "slug": "beverages",
+      "description": "Darjeeling tea, roasted coffee, cold drinks, fruit juices",
+      "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 38
+    },
+    {
+      "id": "cat-9",
+      "name": "Dairy Products",
+      "slug": "dairy-products",
+      "description": "Fresh whole milk, butter, farm cheese, yogurt, and paneer",
+      "image": "https://images.unsplash.com/photo-1628088062854-d1870b4553da?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 22
+    },
+    {
+      "id": "cat-10",
+      "name": "Personal Care",
+      "slug": "personal-care",
+      "description": "Soaps, herbal shampoo, toothpaste, moisturizers, and sanitizers",
+      "image": "https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 30
+    },
+    {
+      "id": "cat-11",
+      "name": "Cleaning Products",
+      "slug": "cleaning-products",
+      "description": "Dishwashing liquid, floor cleaners, laundry detergents, and sponges",
+      "image": "https://images.unsplash.com/photo-1585421514738-01798e348b17?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 26
+    },
+    {
+      "id": "cat-12",
+      "name": "Household Items",
+      "slug": "household-items",
+      "description": "Kitchen paper towels, trash bags, batteries, and food storage foil",
+      "image": "https://images.unsplash.com/photo-1584992236310-6edddc08acff?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 19
+    },
+    {
+      "id": "cat-13",
+      "name": "Stationery",
+      "slug": "stationery",
+      "description": "Notebooks, ballpoint pens, sticky notes, markers, and glues",
+      "image": "https://images.unsplash.com/photo-1583485088034-697b5bc54ccd?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 15
+    },
+    {
+      "id": "cat-14",
+      "name": "Baby Products",
+      "slug": "baby-products",
+      "description": "Gentle baby wipes, infant milk powder, diapers, and baby soap",
+      "image": "https://images.unsplash.com/photo-1515488042361-ee00e0ddd4e4?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 14
+    },
+    {
+      "id": "cat-15",
+      "name": "Other",
+      "slug": "other",
+      "description": "Candles, matchboxes, flashlight cells, and emergency utility sundries",
+      "image": "https://images.unsplash.com/photo-1513519245088-0e12902e5a38?auto=format&fit=crop&w=600&q=80",
+      "itemCount": 10
+    }
+  ],
+  "orders": [
+    {
+      "id": "ord-1001",
+      "orderNumber": "GS-2026-0891",
+      "userId": "usr-customer-1",
+      "customerInfo": {
+        "fullName": "Sarah Jenkins",
+        "phone": "+1 (555) 890-1234",
+        "email": "customer@example.com",
+        "deliveryAddress": "12 Willow Lane, Apt 4B",
+        "city": "Metro City",
+        "area": "Northside Suburbs",
+        "landmark": "Near Metro Station",
+        "notes": "Please leave at doorstep if bell not answered"
+      },
+      "items": [
+        {
+          "productId": "prod-1",
+          "name": "Royal Basmati Rice Super Long Grain (5kg)",
+          "price": 15.49,
+          "quantity": 1,
+          "unit": "5 kg bag",
+          "image": "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "productId": "prod-5",
+          "name": "Aromatic Highland CTC Black Tea (500g)",
+          "price": 6.4,
+          "quantity": 2,
+          "unit": "500 g carton",
+          "image": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "subtotal": 28.29,
+      "deliveryFee": 3.5,
+      "discount": 0,
+      "grandTotal": 31.79,
+      "paymentMethod": "Cash on Delivery",
+      "paymentStatus": "Paid",
+      "orderStatus": "Delivered",
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-09-05T07:56:44.293Z"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2026-09-05T08:06:44.293Z"
+        },
+        {
+          "status": "Processing",
+          "timestamp": "2026-09-05T08:26:44.293Z"
+        },
+        {
+          "status": "Shipped",
+          "timestamp": "2026-09-05T08:56:44.293Z"
+        },
+        {
+          "status": "Delivered",
+          "timestamp": "2026-09-05T09:56:44.293Z",
+          "note": "Delivered by rider Mike"
+        }
+      ],
+      "createdAt": "2026-09-05T07:56:44.293Z",
+      "updatedAt": "2026-09-05T09:56:44.293Z"
+    },
+    {
+      "id": "ord-1002",
+      "orderNumber": "GS-2026-0892",
+      "userId": "usr-customer-2",
+      "customerInfo": {
+        "fullName": "David Miller",
+        "phone": "+1 (555) 432-8765",
+        "email": "david.m@example.com",
+        "deliveryAddress": "78 River Road",
+        "city": "Metro City",
+        "area": "Riverside Colony",
+        "landmark": "Beside Clocktower"
+      },
+      "items": [
+        {
+          "productId": "prod-2",
+          "name": "Pure Cold-Pressed Mustard Cooking Oil (1L)",
+          "price": 5.25,
+          "quantity": 2,
+          "unit": "1 Litre bottle",
+          "image": "https://images.unsplash.com/photo-1474979266404-7eaacbcd87c5?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "productId": "prod-3",
+          "name": "Premium Yellow Lentils / Moong Dal (1kg)",
+          "price": 3.5,
+          "quantity": 2,
+          "unit": "1 kg pack",
+          "image": "https://images.unsplash.com/photo-1515543237350-b3eea1ec8082?auto=format&fit=crop&w=800&q=80"
+        },
+        {
+          "productId": "prod-14",
+          "name": "Farm Fresh Full Cream Milk (1 Litre)",
+          "price": 1.89,
+          "quantity": 3,
+          "unit": "1 Litre carton",
+          "image": "https://images.unsplash.com/photo-1550583724-b2692b85b150?auto=format&fit=crop&w=800&q=80"
+        }
+      ],
+      "subtotal": 23.17,
+      "deliveryFee": 3.5,
+      "discount": 2.31,
+      "appliedCoupon": "WELCOME10",
+      "grandTotal": 24.36,
+      "paymentMethod": "Cash on Delivery",
+      "paymentStatus": "Pending",
+      "orderStatus": "Processing",
+      "statusHistory": [
+        {
+          "status": "Pending",
+          "timestamp": "2026-09-10T05:56:44.293Z"
+        },
+        {
+          "status": "Confirmed",
+          "timestamp": "2026-09-10T06:26:44.293Z"
+        },
+        {
+          "status": "Processing",
+          "timestamp": "2026-09-10T07:11:44.293Z"
+        }
+      ],
+      "createdAt": "2026-09-10T05:56:44.293Z",
+      "updatedAt": "2026-09-10T07:11:44.293Z"
+    }
+  ],
+  "reviews": [
+    {
+      "id": "rev-1",
+      "productId": "prod-1",
+      "userId": "usr-customer-1",
+      "userName": "Sarah Jenkins",
+      "rating": 5,
+      "comment": "The basmati rice is genuinely top notch! Long grains and cooks up so fluffy without sticking. Fast local delivery too!",
+      "createdAt": "2026-08-27T07:56:44.087Z"
+    },
+    {
+      "id": "rev-2",
+      "productId": "prod-2",
+      "userId": "usr-customer-2",
+      "userName": "David M.",
+      "rating": 5,
+      "comment": "Pure authentic mustard oil with great pungent aroma. Perfect for our traditional recipes.",
+      "createdAt": "2026-08-31T07:56:44.087Z"
+    },
+    {
+      "id": "rev-3",
+      "productId": "prod-5",
+      "userId": "usr-customer-1",
+      "userName": "Sarah Jenkins",
+      "rating": 5,
+      "comment": "Best morning tea we've had in a long time. Strong liquor and amazing aroma.",
+      "createdAt": "2026-09-03T07:56:44.087Z"
+    },
+    {
+      "id": "rev-4",
+      "productId": "prod-14",
+      "userId": "usr-customer-3",
+      "userName": "Emily Chen",
+      "rating": 5,
+      "comment": "So fresh and creamy! Always arrives early in the morning when we order. Very trustworthy local store.",
+      "createdAt": "2026-09-07T07:56:44.087Z"
+    }
+  ],
+  "offers": [
+    {
+      "id": "off-1",
+      "code": "WELCOME10",
+      "title": "10% Off First Order",
+      "description": "Get 10% instant discount on your first grocery delivery with us!",
+      "discountPercent": 10,
+      "minPurchase": 20,
+      "validUntil": "2026-12-31",
+      "isActive": true
+    },
+    {
+      "id": "off-2",
+      "code": "FREESHIP",
+      "title": "Free Local Delivery",
+      "description": "Enjoy zero delivery fee on all orders over $35.",
+      "discountPercent": 100,
+      "minPurchase": 35,
+      "validUntil": "2026-12-31",
+      "isActive": true
+    },
+    {
+      "id": "off-3",
+      "code": "FESTIVE15",
+      "title": "Weekend Grocery Savings 15%",
+      "description": "Save 15% on pantry staples and household goods above $50.",
+      "discountPercent": 15,
+      "minPurchase": 50,
+      "validUntil": "2026-12-31",
+      "isActive": true
+    }
+  ]
+}
