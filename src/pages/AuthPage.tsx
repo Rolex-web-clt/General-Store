@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate, useSearchParams, useLocation, Link } from 'react-router-dom';
 import {
   Store,
@@ -732,46 +733,54 @@ export const AuthPage: React.FC = () => {
       </div>
 
       {/* Forgot Password Modal */}
-      {showForgotModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in">
-          <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative">
-            <button
+      {showForgotModal &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-slate-900/60 backdrop-blur-xs p-4 animate-in fade-in isolate" role="dialog" aria-modal="true">
+            <div
+              className="fixed inset-0"
               onClick={() => setShowForgotModal(false)}
-              className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100 transition-colors"
-            >
-              <X className="w-5 h-5" />
-            </button>
+              aria-hidden="true"
+            />
+            <div className="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border border-slate-100 relative z-10">
+              <button
+                onClick={() => setShowForgotModal(false)}
+                className="absolute top-4 right-4 text-slate-400 hover:text-slate-600 p-1 rounded-full hover:bg-slate-100 transition-colors"
+                aria-label="Close"
+              >
+                <X className="w-5 h-5" />
+              </button>
 
-            <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
-              <HelpCircle className="w-6 h-6" />
+              <div className="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-700 flex items-center justify-center mb-4">
+                <HelpCircle className="w-6 h-6" />
+              </div>
+
+              <h3 className="text-base font-extrabold text-slate-900">Password Recovery</h3>
+              <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                For this demo store, all accounts are managed with pre-configured demo credentials or
+                you can register a new account instantly.
+              </p>
+
+              <div className="my-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-1.5">
+                <p className="font-bold text-slate-800">Demo Customer Account:</p>
+                <p className="text-slate-600 font-mono text-[11px]">customer@example.com / customer123</p>
+                <p className="font-bold text-slate-800 pt-1">Demo Administrator:</p>
+                <p className="text-slate-600 font-mono text-[11px]">admin@generalstore.com / admin123</p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setShowForgotModal(false);
+                  fillDemoCredentials('CUSTOMER');
+                }}
+                className="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition-colors"
+              >
+                Autofill Customer Credentials
+              </button>
             </div>
-
-            <h3 className="text-base font-extrabold text-slate-900">Password Recovery</h3>
-            <p className="text-xs text-slate-500 mt-2 leading-relaxed">
-              For this demo store, all accounts are managed with pre-configured demo credentials or
-              you can register a new account instantly.
-            </p>
-
-            <div className="my-4 p-3.5 bg-slate-50 rounded-2xl border border-slate-200 text-xs space-y-1.5">
-              <p className="font-bold text-slate-800">Demo Customer Account:</p>
-              <p className="text-slate-600 font-mono text-[11px]">customer@example.com / customer123</p>
-              <p className="font-bold text-slate-800 pt-1">Demo Administrator:</p>
-              <p className="text-slate-600 font-mono text-[11px]">admin@generalstore.com / admin123</p>
-            </div>
-
-            <button
-              type="button"
-              onClick={() => {
-                setShowForgotModal(false);
-                fillDemoCredentials('CUSTOMER');
-              }}
-              className="w-full py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white font-bold text-xs transition-colors"
-            >
-              Autofill Customer Credentials
-            </button>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

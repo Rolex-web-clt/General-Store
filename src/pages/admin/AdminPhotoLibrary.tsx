@@ -1,4 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 import {
   Image as ImageIcon,
@@ -24,6 +25,7 @@ import {
   PHOTO_CATEGORIES,
   GeneralStorePhoto,
 } from '../../data/generalStorePhotos';
+import { formatPrice } from '../../utils/currency';
 
 export default function AdminPhotoLibrary() {
   const navigate = useNavigate();
@@ -154,6 +156,17 @@ export default function AdminPhotoLibrary() {
       setIsImporting(false);
     }
   };
+
+  // Lock body scroll when preview modal is open
+  useEffect(() => {
+    if (previewPhoto) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [previewPhoto]);
 
   return (
     <div className="space-y-6">
@@ -422,11 +435,11 @@ export default function AdminPhotoLibrary() {
                   <div className="pt-2 border-t border-slate-100 flex items-center justify-between">
                     <div>
                       <span className="text-xs font-extrabold text-slate-900">
-                        ${photo.price.toFixed(2)}
+                        {formatPrice(photo.price)}
                       </span>
                       {photo.discountPrice && (
                         <span className="text-[10px] text-slate-400 line-through ml-1.5">
-                          ${(photo.price * 1.15).toFixed(2)}
+                          {formatPrice(photo.price * 1.15)}
                         </span>
                       )}
                     </div>
@@ -493,90 +506,97 @@ export default function AdminPhotoLibrary() {
       )}
 
       {/* Full HD Preview Modal */}
-      {previewPhoto && (
-        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in">
-          <div className="bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl animate-scale-in">
-            <div className="relative aspect-[16/9] bg-slate-900">
-              <img
-                src={previewPhoto.url}
-                alt={previewPhoto.title}
-                className="w-full h-full object-cover"
-              />
-              <button
-                onClick={() => setPreviewPhoto(null)}
-                className="absolute top-3 right-3 w-8 h-8 bg-black/60 hover:bg-black/80 rounded-full text-white flex items-center justify-center text-sm font-bold"
-              >
-                &times;
-              </button>
-              <div className="absolute bottom-3 left-3 bg-black/70 text-white text-xs px-2.5 py-1 rounded-md">
-                {previewPhoto.category} &bull; High Resolution
-              </div>
-            </div>
-
-            <div className="p-6 space-y-4">
-              <div>
-                <h2 className="text-lg font-bold text-slate-900">{previewPhoto.title}</h2>
-                <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
-                  <span>Brand: <strong className="text-slate-700">{previewPhoto.brand}</strong></span>
-                  <span>Unit: <strong className="text-slate-700">{previewPhoto.unit}</strong></span>
-                  <span>Suggested Price: <strong className="text-emerald-700">${previewPhoto.price.toFixed(2)}</strong></span>
-                </div>
-              </div>
-
-              {/* Tags */}
-              <div className="flex flex-wrap gap-1.5">
-                {previewPhoto.tags.map(t => (
-                  <span
-                    key={t}
-                    className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[11px] font-medium"
-                  >
-                    #{t}
-                  </span>
-                ))}
-              </div>
-
-              {/* Action Buttons */}
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
+      {previewPhoto &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 animate-fade-in isolate" role="dialog" aria-modal="true">
+            <div
+              className="fixed inset-0"
+              onClick={() => setPreviewPhoto(null)}
+              aria-hidden="true"
+            />
+            <div className="relative bg-white rounded-2xl max-w-2xl w-full overflow-hidden shadow-2xl animate-scale-in z-10">
+              <div className="relative aspect-[16/9] bg-slate-900">
+                <img
+                  src={previewPhoto.url}
+                  alt={previewPhoto.title}
+                  className="w-full h-full object-cover"
+                />
                 <button
-                  onClick={() => handleCopyUrl(previewPhoto)}
-                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2"
+                  onClick={() => setPreviewPhoto(null)}
+                  className="absolute top-3 right-3 w-8 h-8 bg-black/60 hover:bg-black/80 rounded-full text-white flex items-center justify-center text-sm font-bold transition-colors"
                 >
-                  {copiedId === previewPhoto.id ? (
-                    <>
-                      <Check className="w-4 h-4 text-emerald-600" /> Copied Image URL!
-                    </>
-                  ) : (
-                    <>
-                      <Copy className="w-4 h-4" /> Copy Image URL
-                    </>
-                  )}
+                  &times;
                 </button>
+                <div className="absolute bottom-3 left-3 bg-black/70 text-white text-xs px-2.5 py-1 rounded-md">
+                  {previewPhoto.category} &bull; High Resolution
+                </div>
+              </div>
 
-                <div className="flex items-center gap-2">
-                  <a
-                    href={previewPhoto.url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="px-3 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold flex items-center gap-1.5"
-                  >
-                    <ExternalLink className="w-3.5 h-3.5" /> Full Size
-                  </a>
+              <div className="p-6 space-y-4">
+                <div>
+                  <h2 className="text-lg font-bold text-slate-900">{previewPhoto.title}</h2>
+                  <div className="flex items-center gap-3 text-xs text-slate-500 mt-1">
+                    <span>Brand: <strong className="text-slate-700">{previewPhoto.brand}</strong></span>
+                    <span>Unit: <strong className="text-slate-700">{previewPhoto.unit}</strong></span>
+                    <span>Suggested Price: <strong className="text-emerald-700">{formatPrice(previewPhoto.price)}</strong></span>
+                  </div>
+                </div>
+
+                {/* Tags */}
+                <div className="flex flex-wrap gap-1.5">
+                  {previewPhoto.tags.map(t => (
+                    <span
+                      key={t}
+                      className="px-2 py-0.5 bg-slate-100 text-slate-600 rounded text-[11px] font-medium"
+                    >
+                      #{t}
+                    </span>
+                  ))}
+                </div>
+
+                {/* Action Buttons */}
+                <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
                   <button
-                    onClick={() => {
-                      const p = previewPhoto;
-                      setPreviewPhoto(null);
-                      handleCreateProductWithPhoto(p);
-                    }}
-                    className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm"
+                    onClick={() => handleCopyUrl(previewPhoto)}
+                    className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-semibold text-slate-700 hover:bg-slate-50 flex items-center gap-2"
                   >
-                    <PlusCircle className="w-4 h-4" /> Create Product in Store
+                    {copiedId === previewPhoto.id ? (
+                      <>
+                        <Check className="w-4 h-4 text-emerald-600" /> Copied Image URL!
+                      </>
+                    ) : (
+                      <>
+                        <Copy className="w-4 h-4" /> Copy Image URL
+                      </>
+                    )}
                   </button>
+
+                  <div className="flex items-center gap-2">
+                    <a
+                      href={previewPhoto.url}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="px-3 py-2 border border-slate-200 text-slate-600 hover:bg-slate-50 rounded-xl text-xs font-semibold flex items-center gap-1.5"
+                    >
+                      <ExternalLink className="w-3.5 h-3.5" /> Full Size
+                    </a>
+                    <button
+                      onClick={() => {
+                        const p = previewPhoto;
+                        setPreviewPhoto(null);
+                        handleCreateProductWithPhoto(p);
+                      }}
+                      className="px-4 py-2 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold flex items-center gap-2 shadow-sm"
+                    >
+                      <PlusCircle className="w-4 h-4" /> Create Product in Store
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

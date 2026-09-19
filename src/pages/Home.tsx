@@ -21,6 +21,7 @@ import { api } from '../services/api';
 import { Category, Product, Offer, Review } from '../types';
 import { STORE_CONFIG } from '../config/store';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { formatPrice } from '../utils/currency';
 
 export const Home: React.FC = () => {
   const [categories, setCategories] = useState<Category[]>([]);
@@ -207,7 +208,7 @@ export const Home: React.FC = () => {
                       {offer.discountPercent}% DISCOUNT
                     </span>
                     <span className="text-[11px] text-slate-400 font-medium">
-                      Min. ${offer.minPurchase}
+                      Min. {formatPrice(offer.minPurchase)}
                     </span>
                   </div>
                   <h3 className="font-bold text-slate-800 text-base">{offer.title}</h3>

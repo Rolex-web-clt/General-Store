@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  DollarSign,
+  Banknote,
   ShoppingBag,
   Users,
   Package,
@@ -15,6 +15,7 @@ import {
 import { api } from '../../services/api';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { ImageWithFallback } from '../../components/common/ImageWithFallback';
+import { formatPrice } from '../../utils/currency';
 
 export const AdminDashboard: React.FC = () => {
   const [metrics, setMetrics] = useState<any>(null);
@@ -89,7 +90,7 @@ export const AdminDashboard: React.FC = () => {
               Total Revenue
             </span>
             <span className="text-2xl sm:text-3xl font-black text-slate-900 block mt-1">
-              ${metrics.totalRevenue.toFixed(2)}
+              {formatPrice(metrics.totalRevenue)}
             </span>
             <span className="text-[11px] text-emerald-600 font-bold flex items-center gap-1 mt-1">
               <TrendingUp className="w-3.5 h-3.5" />
@@ -97,7 +98,7 @@ export const AdminDashboard: React.FC = () => {
             </span>
           </div>
           <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center shrink-0">
-            <DollarSign className="w-6 h-6" />
+            <Banknote className="w-6 h-6" />
           </div>
         </div>
 
@@ -207,7 +208,7 @@ export const AdminDashboard: React.FC = () => {
 
                 <div className="flex items-center justify-between sm:justify-end gap-4">
                   <span className="font-extrabold text-slate-900 text-sm">
-                    ${order.grandTotal.toFixed(2)}
+                    {formatPrice(order.grandTotal)}
                   </span>
                   <Link
                     to="/admin/orders"

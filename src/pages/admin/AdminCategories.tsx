@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Plus, Edit2, Trash2, FolderTree, Package, Upload, Camera, ExternalLink } from 'lucide-react';
+import { Plus, Edit2, Trash2, FolderTree, Package, Upload, Camera, ExternalLink, MoreVertical } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../../services/api';
 import { Category } from '../../types';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { Modal } from '../../components/common/Modal';
 import { ImageWithFallback } from '../../components/common/ImageWithFallback';
+import { ActionMenu } from '../../components/common/ActionMenu';
 
 export const AdminCategories: React.FC = () => {
+  const navigate = useNavigate();
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -174,21 +177,44 @@ export const AdminCategories: React.FC = () => {
                 </div>
               </div>
 
-              <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-end gap-2">
-                <button
-                  onClick={() => handleOpenEdit(cat)}
-                  className="px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1"
-                >
-                  <Edit2 className="w-3.5 h-3.5" />
-                  <span>Edit</span>
-                </button>
-                <button
-                  onClick={() => handleDelete(cat.id, cat.name)}
-                  className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50"
-                  title="Delete Category"
-                >
-                  <Trash2 className="w-4 h-4" />
-                </button>
+              <div className="px-5 py-3 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+                <span className="text-[11px] text-slate-400 font-medium">ID: #{cat.id}</span>
+                <div className="flex items-center gap-1.5">
+                  <button
+                    onClick={() => handleOpenEdit(cat)}
+                    className="px-3 py-1.5 bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 rounded-xl text-xs font-bold flex items-center gap-1 transition-colors"
+                  >
+                    <Edit2 className="w-3.5 h-3.5" />
+                    <span>Edit</span>
+                  </button>
+
+                  <ActionMenu
+                    title={`Options for ${cat.name}`}
+                    triggerClassName="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-white rounded-lg border border-transparent hover:border-slate-200 transition-colors inline-flex items-center justify-center"
+                    menuWidth="w-48"
+                    items={[
+                      {
+                        id: 'edit',
+                        label: 'Edit Category',
+                        icon: Edit2,
+                        onClick: () => handleOpenEdit(cat),
+                      },
+                      {
+                        id: 'view-products',
+                        label: 'View Category Products',
+                        icon: ExternalLink,
+                        onClick: () => navigate(`/admin/products?category=${encodeURIComponent(cat.name)}`),
+                      },
+                      {
+                        id: 'delete',
+                        label: 'Delete Category',
+                        icon: Trash2,
+                        variant: 'danger',
+                        onClick: () => handleDelete(cat.id, cat.name),
+                      },
+                    ]}
+                  />
+                </div>
               </div>
             </div>
           ))}

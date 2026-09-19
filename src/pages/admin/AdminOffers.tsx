@@ -3,6 +3,7 @@ import { Tag, Plus, Trash2, CheckCircle2 } from 'lucide-react';
 import { api } from '../../services/api';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { Modal } from '../../components/common/Modal';
+import { formatPrice } from '../../utils/currency';
 
 export const AdminOffers: React.FC = () => {
   const [offers, setOffers] = useState<any[]>([]);
@@ -139,11 +140,11 @@ export const AdminOffers: React.FC = () => {
                     <td className="py-3 px-4 whitespace-nowrap font-extrabold text-slate-900">
                       {offer.discountType === 'PERCENTAGE'
                         ? `${offer.discountValue}% OFF`
-                        : `$${offer.discountValue} FLAT OFF`}
+                        : `${formatPrice(offer.discountValue)} FLAT OFF`}
                     </td>
 
                     <td className="py-3 px-4 whitespace-nowrap">
-                      ${offer.minPurchase.toFixed(2)}
+                      {formatPrice(offer.minPurchase)}
                     </td>
 
                     <td className="py-3 px-4 whitespace-nowrap text-slate-500">
@@ -201,7 +202,7 @@ export const AdminOffers: React.FC = () => {
               required
               value={title}
               onChange={e => setTitle(e.target.value)}
-              placeholder="e.g. 15% Off on Groceries above $40"
+              placeholder="e.g. 15% Off on Groceries above Rs. 1,000"
               className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white"
             />
           </div>
@@ -215,7 +216,7 @@ export const AdminOffers: React.FC = () => {
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white"
               >
                 <option value="PERCENTAGE">Percentage (%)</option>
-                <option value="FIXED">Flat Dollar ($)</option>
+                <option value="FIXED">Flat Rupees (Rs.)</option>
               </select>
             </div>
 
@@ -223,11 +224,11 @@ export const AdminOffers: React.FC = () => {
               <label className="block font-bold text-slate-700 mb-1">Discount Value *</label>
               <input
                 type="number"
-                step="0.1"
+                step="1"
                 required
                 value={discountValue}
                 onChange={e => setDiscountValue(e.target.value)}
-                placeholder="10"
+                placeholder="100"
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white"
               />
             </div>
@@ -235,14 +236,14 @@ export const AdminOffers: React.FC = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block font-bold text-slate-700 mb-1">Min. Order Amount ($)</label>
+              <label className="block font-bold text-slate-700 mb-1">Min. Order Amount (Rs.)</label>
               <input
                 type="number"
                 step="1"
                 required
                 value={minPurchase}
                 onChange={e => setMinPurchase(e.target.value)}
-                placeholder="25"
+                placeholder="500"
                 className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white"
               />
             </div>

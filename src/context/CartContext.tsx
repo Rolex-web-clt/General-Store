@@ -7,6 +7,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { CartItem, Product, Offer } from '../types';
 import { STORE_CONFIG } from '../config/store';
 import { api } from '../services/api';
+import { formatPrice } from '../utils/currency';
 
 interface CartContextType {
   cart: CartItem[];
@@ -153,7 +154,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
 
         if (subtotal < found.minPurchase) {
-          setCouponError(`This coupon requires a minimum purchase of $${found.minPurchase.toFixed(2)}.`);
+          setCouponError(`This coupon requires a minimum purchase of ${formatPrice(found.minPurchase)}.`);
           return false;
         }
 

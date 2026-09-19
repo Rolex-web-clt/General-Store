@@ -124,11 +124,11 @@ export const ProductFilters: React.FC<FiltersProps> = ({
       {/* Price Range */}
       <div>
         <h4 className="text-xs font-bold text-slate-800 uppercase tracking-wider mb-3">
-          Price Range ($)
+          Price Range (Rs.)
         </h4>
         <div className="grid grid-cols-2 gap-2">
           <div>
-            <label className="text-[10px] text-slate-400 block mb-1">Min ($)</label>
+            <label className="text-[10px] text-slate-400 block mb-1">Min (Rs.)</label>
             <input
               type="number"
               min="0"
@@ -139,11 +139,11 @@ export const ProductFilters: React.FC<FiltersProps> = ({
             />
           </div>
           <div>
-            <label className="text-[10px] text-slate-400 block mb-1">Max ($)</label>
+            <label className="text-[10px] text-slate-400 block mb-1">Max (Rs.)</label>
             <input
               type="number"
               min="0"
-              placeholder="100"
+              placeholder="2500"
               value={maxPrice}
               onChange={e => onPriceChange(minPrice, e.target.value)}
               className="w-full px-2.5 py-1.5 text-xs bg-slate-50 border border-slate-200 rounded-lg outline-none focus:border-emerald-600"

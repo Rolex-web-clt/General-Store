@@ -15,6 +15,7 @@ import {
 import { useCart } from '../context/CartContext';
 import { STORE_CONFIG } from '../config/store';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { formatPrice } from '../utils/currency';
 
 export const CartPage: React.FC = () => {
   const {
@@ -95,7 +96,7 @@ export const CartPage: React.FC = () => {
             <Truck className="w-4 h-4 text-emerald-700" />
             {amountNeededForFree > 0 ? (
               <span>
-                Add <strong className="text-emerald-700">${amountNeededForFree.toFixed(2)}</strong> more for <strong>FREE Local Delivery</strong>!
+                Add <strong className="text-emerald-700">{formatPrice(amountNeededForFree)}</strong> more for <strong>FREE Local Delivery</strong>!
               </span>
             ) : (
               <span className="text-emerald-700 font-extrabold">
@@ -103,7 +104,7 @@ export const CartPage: React.FC = () => {
               </span>
             )}
           </div>
-          <span>${subtotal.toFixed(2)} / ${freeThreshold}</span>
+          <span>{formatPrice(subtotal)} / {formatPrice(freeThreshold)}</span>
         </div>
         <div className="w-full bg-emerald-200/70 h-2.5 rounded-full overflow-hidden">
           <div
@@ -144,7 +145,7 @@ export const CartPage: React.FC = () => {
                     </Link>
                     <p className="text-xs text-slate-400 mt-0.5">{item.product.unit}</p>
                     <p className="text-xs font-bold text-slate-700 mt-1">
-                      ${price.toFixed(2)} per unit
+                      {formatPrice(price)} per unit
                     </p>
                   </div>
                 </div>
@@ -171,7 +172,7 @@ export const CartPage: React.FC = () => {
                   </div>
 
                   <span className="font-extrabold text-slate-900 text-sm font-display min-w-[70px] text-right">
-                    ${lineTotal.toFixed(2)}
+                    {formatPrice(lineTotal)}
                   </span>
 
                   <button
@@ -245,7 +246,7 @@ export const CartPage: React.FC = () => {
             <div className="space-y-2.5 text-xs text-slate-600">
               <div className="flex items-center justify-between">
                 <span>Items Subtotal</span>
-                <span className="font-bold text-slate-900">${subtotal.toFixed(2)}</span>
+                <span className="font-bold text-slate-900">{formatPrice(subtotal)}</span>
               </div>
 
               <div className="flex items-center justify-between">
@@ -258,14 +259,14 @@ export const CartPage: React.FC = () => {
                   )}
                 </div>
                 <span className="font-bold text-slate-900">
-                  {deliveryFee === 0 ? '$0.00' : `$${deliveryFee.toFixed(2)}`}
+                  {deliveryFee === 0 ? 'Rs. 0' : formatPrice(deliveryFee)}
                 </span>
               </div>
 
               {discount > 0 && (
                 <div className="flex items-center justify-between text-emerald-700">
                   <span>Discount ({appliedCoupon?.code})</span>
-                  <span className="font-bold">-${discount.toFixed(2)}</span>
+                  <span className="font-bold">-{formatPrice(discount)}</span>
                 </div>
               )}
             </div>
@@ -276,7 +277,7 @@ export const CartPage: React.FC = () => {
                 <span className="block text-[11px] text-slate-400">All local taxes included</span>
               </div>
               <span className="text-2xl font-black text-slate-950 font-display">
-                ${grandTotal.toFixed(2)}
+                {formatPrice(grandTotal)}
               </span>
             </div>
 
@@ -285,8 +286,8 @@ export const CartPage: React.FC = () => {
               <div className="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
                 <AlertTriangle className="w-4 h-4 shrink-0 text-amber-600 mt-0.5" />
                 <span>
-                  Minimum order amount for delivery is <strong>${minOrder.toFixed(2)}</strong>. Please add{' '}
-                  <strong>${(minOrder - subtotal).toFixed(2)}</strong> more to proceed.
+                  Minimum order amount for delivery is <strong>{formatPrice(minOrder)}</strong>. Please add{' '}
+                  <strong>{formatPrice(minOrder - subtotal)}</strong> more to proceed.
                 </span>
               </div>
             )}
@@ -315,7 +316,7 @@ export const CartPage: React.FC = () => {
         <div className="lg:hidden fixed bottom-14 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/90 py-2.5 px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] flex items-center justify-between gap-3">
           <div>
             <p className="text-[10px] text-slate-400 uppercase font-black tracking-wider">Total to Pay</p>
-            <p className="text-xl font-black text-slate-900 leading-tight">${grandTotal.toFixed(2)}</p>
+            <p className="text-xl font-black text-slate-900 leading-tight">{formatPrice(grandTotal)}</p>
             {deliveryFee === 0 && (
               <span className="text-[10px] font-bold text-emerald-700">Free delivery unlocked</span>
             )}

@@ -23,6 +23,8 @@ import {
   Upload,
   Camera,
   FileImage,
+  Copy,
+  MoreVertical,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { Product, Category } from '../../types';
@@ -30,6 +32,8 @@ import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { Modal } from '../../components/common/Modal';
 import { GENERAL_STORE_PHOTOS, GeneralStorePhoto } from '../../data/generalStorePhotos';
 import { ImageWithFallback } from '../../components/common/ImageWithFallback';
+import { ActionMenu } from '../../components/common/ActionMenu';
+import { formatPrice } from '../../utils/currency';
 
 // Curated high-resolution image presets for common grocery and store items
 const IMAGE_PRESETS = [
@@ -232,6 +236,29 @@ export const AdminProducts: React.FC = () => {
     setIsBestSeller(p.isBestSeller);
     setIsNewArrival(p.isNewArrival);
     setIsActive(p.isActive !== false);
+    setTags(p.tags ? p.tags.join(', ') : '');
+    setShowImagePresets(false);
+    setFormError(null);
+    setModalOpen(true);
+  };
+
+  const handleDuplicateProduct = (p: Product) => {
+    setEditingProduct(null);
+    setName(`${p.name} (Copy)`);
+    setBrand(p.brand);
+    setCategory(p.category);
+    setIsAddingNewCategory(false);
+    setCustomCategory('');
+    setPrice(String(p.price));
+    setDiscountPrice(p.discountPrice && p.discountPrice < p.price ? String(p.discountPrice) : '');
+    setStock(String(p.stock));
+    setUnit(p.unit || '1 piece');
+    setDescription(p.description || '');
+    setImageUrl(p.images[0] || '');
+    setIsFeatured(false);
+    setIsBestSeller(false);
+    setIsNewArrival(true);
+    setIsActive(true);
     setTags(p.tags ? p.tags.join(', ') : '');
     setShowImagePresets(false);
     setFormError(null);
@@ -637,11 +664,11 @@ export const AdminProducts: React.FC = () => {
                       <td className="py-3 px-4 whitespace-nowrap">
                         <div className="flex items-baseline gap-1.5">
                           <span className="font-extrabold text-slate-900 text-sm">
-                            ${(p.discountPrice || p.price).toFixed(2)}
+                            {formatPrice(p.discountPrice || p.price)}
                           </span>
                           {hasDiscount && (
                             <span className="text-[10px] text-slate-400 line-through">
-                              ${p.price.toFixed(2)}
+                              {formatPrice(p.price)}
                             </span>
                           )}
                         </div>
@@ -700,16 +727,7 @@ export const AdminProducts: React.FC = () => {
 
                       {/* Row Actions */}
                       <td className="py-3 px-4 text-right whitespace-nowrap">
-                        <div className="flex items-center justify-end gap-1.5">
-                          <Link
-                            to={`/product/${p.id}`}
-                            target="_blank"
-                            rel="noreferrer"
-                            className="p-1.5 text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-colors"
-                            title="View on Customer Storefront"
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </Link>
+                        <div className="flex items-center justify-end gap-1">
                           <button
                             onClick={() => handleOpenEdit(p)}
                             className="p-1.5 text-slate-600 hover:text-emerald-700 rounded-lg hover:bg-emerald-50 transition-colors"
@@ -717,13 +735,46 @@ export const AdminProducts: React.FC = () => {
                           >
                             <Edit2 className="w-4 h-4" />
                           </button>
-                          <button
-                            onClick={() => handleDelete(p.id, p.name)}
-                            className="p-1.5 text-slate-400 hover:text-rose-600 rounded-lg hover:bg-rose-50 transition-colors"
-                            title="Delete Product"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
+
+                          {/* 3-Dot Options Action Menu */}
+                          <ActionMenu
+                            title={`Options for ${p.name}`}
+                            triggerClassName="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors inline-flex items-center justify-center"
+                            menuWidth="w-52"
+                            items={[
+                              {
+                                id: 'edit',
+                                label: 'Edit Product',
+                                icon: Edit2,
+                                onClick: () => handleOpenEdit(p),
+                              },
+                              {
+                                id: 'view',
+                                label: 'View on Storefront',
+                                icon: ExternalLink,
+                                onClick: () => window.open(`/product/${p.id}`, '_blank'),
+                              },
+                              {
+                                id: 'toggle-active',
+                                label: p.isActive ? 'Hide from Store' : 'List on Website',
+                                icon: p.isActive ? EyeOff : Eye,
+                                onClick: () => handleToggleActive(p),
+                              },
+                              {
+                                id: 'duplicate',
+                                label: 'Duplicate Product',
+                                icon: Copy,
+                                onClick: () => handleDuplicateProduct(p),
+                              },
+                              {
+                                id: 'delete',
+                                label: 'Delete Product',
+                                icon: Trash2,
+                                variant: 'danger',
+                                onClick: () => handleDelete(p.id, p.name),
+                              },
+                            ]}
+                          />
                         </div>
                       </td>
                     </tr>
@@ -836,29 +887,29 @@ export const AdminProducts: React.FC = () => {
               <div className="grid grid-cols-3 gap-3">
                 <div>
                   <label className="block font-bold text-slate-700 mb-1">
-                    Regular Price ($) <span className="text-rose-500">*</span>
+                    Regular Price (Rs.) <span className="text-rose-500">*</span>
                   </label>
                   <input
                     type="number"
-                    step="0.01"
+                    step="1"
                     min="0"
                     required
                     value={price}
                     onChange={e => setPrice(e.target.value)}
-                    placeholder="15.00"
+                    placeholder="150"
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white text-xs font-bold"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-bold text-slate-700 mb-1">Sale / Discount ($)</label>
+                  <label className="block font-bold text-slate-700 mb-1">Sale / Discount (Rs.)</label>
                   <input
                     type="number"
-                    step="0.01"
+                    step="1"
                     min="0"
                     value={discountPrice}
                     onChange={e => setDiscountPrice(e.target.value)}
-                    placeholder="Optional"
+                    placeholder="Optional (e.g. 130)"
                     className="w-full px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl outline-none focus:border-emerald-600 focus:bg-white text-xs"
                   />
                 </div>
@@ -1273,14 +1324,15 @@ export const AdminProducts: React.FC = () => {
 
                     <div className="flex items-baseline gap-2 pt-2 border-t border-slate-100">
                       <span className="text-base font-extrabold text-slate-900">
-                        ${(discountPrice && parseFloat(discountPrice) < parseFloat(price || '0')
-                          ? parseFloat(discountPrice)
-                          : parseFloat(price || '0')
-                        ).toFixed(2)}
+                        {formatPrice(
+                          discountPrice && parseFloat(discountPrice) < parseFloat(price || '0')
+                            ? parseFloat(discountPrice)
+                            : parseFloat(price || '0')
+                        )}
                       </span>
                       {discountPrice && parseFloat(discountPrice) < parseFloat(price || '0') && (
                         <span className="text-xs text-slate-400 line-through">
-                          ${parseFloat(price || '0').toFixed(2)}
+                          {formatPrice(parseFloat(price || '0'))}
                         </span>
                       )}
                     </div>

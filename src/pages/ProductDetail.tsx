@@ -23,6 +23,7 @@ import { useWishlist } from '../context/WishlistContext';
 import { useAuth } from '../context/AuthContext';
 import { Product, Review } from '../types';
 import { STORE_CONFIG } from '../config/store';
+import { formatPrice } from '../utils/currency';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
 
 export const ProductDetail: React.FC = () => {
@@ -260,15 +261,15 @@ export const ProductDetail: React.FC = () => {
             {/* Price section */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 flex items-baseline gap-3">
               <span className="text-3xl font-black text-slate-950 font-display">
-                ${currentPrice.toFixed(2)}
+                {formatPrice(currentPrice)}
               </span>
               {hasDiscount && (
                 <>
                   <span className="text-base text-slate-400 line-through">
-                    ${product.price.toFixed(2)}
+                    {formatPrice(product.price)}
                   </span>
                   <span className="text-xs font-bold text-rose-600 bg-rose-100/70 px-2 py-0.5 rounded">
-                    You Save ${savings.toFixed(2)}
+                    You Save {formatPrice(savings)}
                   </span>
                 </>
               )}
@@ -508,9 +509,9 @@ export const ProductDetail: React.FC = () => {
       <div className="lg:hidden fixed bottom-14 left-0 right-0 z-30 bg-white/95 backdrop-blur-md border-t border-slate-200/90 py-2.5 px-4 shadow-[0_-4px_16px_rgba(0,0,0,0.06)] flex items-center justify-between gap-2 sm:gap-3">
         <div className="min-w-0 flex-1">
           <div className="flex items-baseline gap-1.5 min-w-0">
-            <span className="text-xl font-black text-slate-900">${currentPrice.toFixed(2)}</span>
+            <span className="text-xl font-black text-slate-900">{formatPrice(currentPrice)}</span>
             {hasDiscount && (
-              <span className="text-xs text-slate-400 line-through">${product.price.toFixed(2)}</span>
+              <span className="text-xs text-slate-400 line-through">{formatPrice(product.price)}</span>
             )}
           </div>
           <span className="text-[10px] text-slate-500 block truncate max-w-full">

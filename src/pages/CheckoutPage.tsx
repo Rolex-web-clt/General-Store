@@ -18,6 +18,7 @@ import { useAuth } from '../context/AuthContext';
 import { api } from '../services/api';
 import { STORE_CONFIG } from '../config/store';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { formatPrice } from '../utils/currency';
 
 export const CheckoutPage: React.FC = () => {
   const { cart, subtotal, deliveryFee, discount, grandTotal, appliedCoupon, clearCart } = useCart();
@@ -388,11 +389,11 @@ export const CheckoutPage: React.FC = () => {
                     <div className="flex-1 min-w-0">
                       <p className="text-xs font-bold text-slate-800 truncate">{item.product.name}</p>
                       <p className="text-[11px] text-slate-400">
-                        {item.quantity} × ${price.toFixed(2)} ({item.product.unit})
+                        {item.quantity} × {formatPrice(price)} ({item.product.unit})
                       </p>
                     </div>
                     <span className="text-xs font-extrabold text-slate-900">
-                      ${(price * item.quantity).toFixed(2)}
+                      {formatPrice(price * item.quantity)}
                     </span>
                   </div>
                 );
@@ -403,23 +404,23 @@ export const CheckoutPage: React.FC = () => {
             <div className="space-y-2.5 text-xs text-slate-600 border-t border-slate-100 pt-4">
               <div className="flex justify-between">
                 <span>Items Total</span>
-                <span className="font-bold text-slate-800">${subtotal.toFixed(2)}</span>
+                <span className="font-bold text-slate-800">{formatPrice(subtotal)}</span>
               </div>
               <div className="flex justify-between">
                 <span>Doorstep Delivery</span>
                 <span className="font-bold text-slate-800">
-                  {deliveryFee === 0 ? 'FREE' : `$${deliveryFee.toFixed(2)}`}
+                  {deliveryFee === 0 ? 'FREE' : formatPrice(deliveryFee)}
                 </span>
               </div>
               {discount > 0 && (
                 <div className="flex justify-between text-emerald-700 font-bold">
                   <span>Coupon Discount ({appliedCoupon?.code})</span>
-                  <span>-${discount.toFixed(2)}</span>
+                  <span>-{formatPrice(discount)}</span>
                 </div>
               )}
               <div className="flex justify-between text-base font-black text-slate-950 pt-2 border-t border-slate-100">
                 <span>Grand Total</span>
-                <span className="font-display">${grandTotal.toFixed(2)}</span>
+                <span className="font-display">{formatPrice(grandTotal)}</span>
               </div>
             </div>
 
@@ -443,7 +444,7 @@ export const CheckoutPage: React.FC = () => {
               ) : (
                 <>
                   <ShieldCheck className="w-5 h-5" />
-                  <span>Confirm Order (${grandTotal.toFixed(2)})</span>
+                  <span>Confirm Order ({formatPrice(grandTotal)})</span>
                 </>
               )}
             </button>

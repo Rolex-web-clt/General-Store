@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { useSearchParams, Link } from 'react-router-dom';
 import { SlidersHorizontal, ArrowUpDown, X, Search, ChevronLeft, ChevronRight, Plus, Package, Store } from 'lucide-react';
 import { ProductCard } from '../components/product/ProductCard';
@@ -20,6 +21,17 @@ export const Shop: React.FC = () => {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [mobileFilterOpen, setMobileFilterOpen] = useState(false);
+
+  // Prevent background scrolling when mobile filter drawer is open
+  useEffect(() => {
+    if (mobileFilterOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [mobileFilterOpen]);
 
   // Read URL parameters
   const currentSearch = searchParams.get('search') || '';
@@ -285,7 +297,7 @@ export const Shop: React.FC = () => {
           )}
           {(currentMinPrice || currentMaxPrice) && (
             <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
-              Price: ${currentMinPrice || '0'} - ${currentMaxPrice || '∞'}
+              Price: Rs. {currentMinPrice || '0'} - Rs. {currentMaxPrice || '∞'}
               <button onClick={() => handlePriceChange('', '')} className="hover:text-emerald-950">
                 <X className="w-3 h-3" />
               </button>
@@ -415,63 +427,65 @@ export const Shop: React.FC = () => {
       </div>
 
       {/* Mobile Filters Slide-over Modal */}
-      {mobileFilterOpen && (
-        <div className="fixed inset-0 z-50 lg:hidden flex">
-          <div
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs"
-            onClick={() => setMobileFilterOpen(false)}
-          />
-          <div className="relative ml-auto w-full max-w-xs bg-white h-full shadow-2xl p-5 overflow-y-auto flex flex-col">
-            <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
-              <h3 className="font-bold text-base text-slate-900">Filter Products</h3>
-              <button
-                onClick={() => setMobileFilterOpen(false)}
-                className="p-1 rounded-lg text-slate-400 hover:text-slate-600"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <ProductFilters
-              categories={categories}
-              brands={brands}
-              selectedCategory={currentCategory}
-              onSelectCategory={cat => {
-                updateParam('category', cat);
-                setMobileFilterOpen(false);
-              }}
-              selectedBrand={currentBrand}
-              onSelectBrand={b => {
-                updateParam('brand', b);
-                setMobileFilterOpen(false);
-              }}
-              minPrice={currentMinPrice}
-              maxPrice={currentMaxPrice}
-              onPriceChange={handlePriceChange}
-              minRating={currentRating}
-              onSelectRating={r => {
-                updateParam('rating', r);
-                setMobileFilterOpen(false);
-              }}
-              inStockOnly={currentInStock}
-              onToggleInStock={val => updateParam('inStock', String(val))}
-              onReset={() => {
-                handleResetFilters();
-                setMobileFilterOpen(false);
-              }}
+      {mobileFilterOpen &&
+        createPortal(
+          <div className="fixed inset-0 z-[9999] lg:hidden flex isolate" role="dialog" aria-modal="true">
+            <div
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200"
+              onClick={() => setMobileFilterOpen(false)}
             />
+            <div className="relative ml-auto w-full max-w-xs bg-white h-[100dvh] max-h-screen shadow-2xl p-5 overflow-y-auto flex flex-col z-10 animate-in slide-in-from-right duration-250 border-l border-slate-200">
+              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                <h3 className="font-bold text-base text-slate-900">Filter Products</h3>
+                <button
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
 
-            <div className="mt-6 pt-4 border-t border-slate-100">
-              <button
-                onClick={() => setMobileFilterOpen(false)}
-                className="w-full py-3 rounded-xl bg-emerald-700 text-white font-bold text-xs"
-              >
-                View Results ({total})
-              </button>
+              <ProductFilters
+                categories={categories}
+                brands={brands}
+                selectedCategory={currentCategory}
+                onSelectCategory={cat => {
+                  updateParam('category', cat);
+                  setMobileFilterOpen(false);
+                }}
+                selectedBrand={currentBrand}
+                onSelectBrand={b => {
+                  updateParam('brand', b);
+                  setMobileFilterOpen(false);
+                }}
+                minPrice={currentMinPrice}
+                maxPrice={currentMaxPrice}
+                onPriceChange={handlePriceChange}
+                minRating={currentRating}
+                onSelectRating={r => {
+                  updateParam('rating', r);
+                  setMobileFilterOpen(false);
+                }}
+                inStockOnly={currentInStock}
+                onToggleInStock={val => updateParam('inStock', String(val))}
+                onReset={() => {
+                  handleResetFilters();
+                  setMobileFilterOpen(false);
+                }}
+              />
+
+              <div className="mt-6 pt-4 border-t border-slate-100">
+                <button
+                  onClick={() => setMobileFilterOpen(false)}
+                  className="w-full py-3 rounded-xl bg-emerald-700 text-white font-bold text-xs hover:bg-emerald-800 transition-colors shadow-xs"
+                >
+                  View Results ({total})
+                </button>
+              </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 };

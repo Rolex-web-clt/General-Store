@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Users, Search, Mail, Phone, ShoppingBag, ShieldCheck } from 'lucide-react';
 import { api } from '../../services/api';
 import { LoadingSpinner } from '../../components/common/LoadingSpinner';
+import { formatPrice } from '../../utils/currency';
 
 export const AdminCustomers: React.FC = () => {
   const [customers, setCustomers] = useState<any[]>([]);
@@ -133,7 +134,7 @@ export const AdminCustomers: React.FC = () => {
 
                     <td className="py-3 px-4 whitespace-nowrap">
                       <span className="font-extrabold text-emerald-700 text-sm">
-                        ${(cust.totalSpend || 0).toFixed(2)}
+                        {formatPrice(cust.totalSpend || 0)}
                       </span>
                     </td>
 

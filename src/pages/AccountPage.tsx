@@ -23,6 +23,7 @@ import { Order, IUserAddress } from '../types';
 import { STORE_CONFIG } from '../config/store';
 import { LoadingSpinner } from '../components/common/LoadingSpinner';
 import { Modal } from '../components/common/Modal';
+import { formatPrice } from '../utils/currency';
 import { OrderStatusTracker } from '../components/order/OrderStatusTracker';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
 
@@ -322,7 +323,7 @@ export const AccountPage: React.FC = () => {
                             {order.items.length} items
                           </span>
                           <span className="font-extrabold text-slate-900 text-sm">
-                            ${order.grandTotal.toFixed(2)}
+                            {formatPrice(order.grandTotal)}
                           </span>
                         </div>
                       </div>
@@ -382,7 +383,7 @@ export const AccountPage: React.FC = () => {
                         </span>
                         <h4 className="font-bold text-slate-800 text-xs truncate">{p.name}</h4>
                         <p className="text-xs font-extrabold text-slate-900 mt-1">
-                          ${(p.discountPrice || p.price).toFixed(2)}
+                          {formatPrice(p.discountPrice || p.price)}
                         </p>
                       </div>
 
@@ -635,12 +636,12 @@ export const AccountPage: React.FC = () => {
                       <div>
                         <span className="font-bold text-slate-800">{item.name}</span>
                         <span className="text-slate-400 block">
-                          {item.quantity} × ${item.price.toFixed(2)}
+                          {item.quantity} × {formatPrice(item.price)}
                         </span>
                       </div>
                     </div>
                     <span className="font-extrabold text-slate-900">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {formatPrice(item.price * item.quantity)}
                     </span>
                   </div>
                 ))}
@@ -648,11 +649,11 @@ export const AccountPage: React.FC = () => {
             </div>
 
             <div className="pt-2 border-t border-slate-100 space-y-1 text-right">
-              <p>Subtotal: ${selectedOrder.subtotal.toFixed(2)}</p>
-              <p>Delivery: ${selectedOrder.deliveryFee.toFixed(2)}</p>
-              {selectedOrder.discount > 0 && <p className="text-emerald-700">Discount: -${selectedOrder.discount.toFixed(2)}</p>}
+              <p>Subtotal: {formatPrice(selectedOrder.subtotal)}</p>
+              <p>Delivery: {selectedOrder.deliveryFee === 0 ? 'FREE' : formatPrice(selectedOrder.deliveryFee)}</p>
+              {selectedOrder.discount > 0 && <p className="text-emerald-700">Discount: -{formatPrice(selectedOrder.discount)}</p>}
               <p className="font-extrabold text-sm text-slate-900 pt-1">
-                Grand Total: ${selectedOrder.grandTotal.toFixed(2)}
+                Grand Total: {formatPrice(selectedOrder.grandTotal)}
               </p>
             </div>
           </div>

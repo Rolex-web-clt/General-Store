@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import { formatPrice } from '../../utils/currency';
 
 export const MobileBottomNav: React.FC = () => {
   const { user, isAdmin } = useAuth();
@@ -46,7 +47,7 @@ export const MobileBottomNav: React.FC = () => {
       path: '/cart',
       icon: ShoppingBag,
       badgeCount: totalItems,
-      sublabel: subtotal > 0 ? `$${subtotal.toFixed(0)}` : undefined,
+      sublabel: subtotal > 0 ? formatPrice(subtotal) : undefined,
     },
     {
       label: isAdmin ? 'Admin' : user ? 'Account' : 'Sign In',

@@ -71,7 +71,7 @@ export const createOrder = (req: AuthRequest, res: Response): void => {
     if (subtotal < storeConfig.delivery.minimumOrder) {
       res.status(400).json({
         success: false,
-        message: `Minimum order amount for delivery is $${storeConfig.delivery.minimumOrder.toFixed(2)}.`,
+        message: `Minimum order amount for delivery is Rs. ${storeConfig.delivery.minimumOrder}.`,
       });
       return;
     }

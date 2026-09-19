@@ -9,6 +9,9 @@ import {
   Eye,
   Truck,
   RotateCcw,
+  Copy,
+  Printer,
+  MoreVertical,
 } from 'lucide-react';
 import { api } from '../../services/api';
 import { Order } from '../../types';
@@ -16,6 +19,8 @@ import { LoadingSpinner } from '../../components/common/LoadingSpinner';
 import { Modal } from '../../components/common/Modal';
 import { OrderStatusTracker } from '../../components/order/OrderStatusTracker';
 import { ImageWithFallback } from '../../components/common/ImageWithFallback';
+import { ActionMenu } from '../../components/common/ActionMenu';
+import { formatPrice } from '../../utils/currency';
 
 export const AdminOrders: React.FC = () => {
   const [orders, setOrders] = useState<Order[]>([]);
@@ -184,7 +189,7 @@ export const AdminOrders: React.FC = () => {
 
                     <td className="py-3 px-4 whitespace-nowrap">
                       <span className="font-extrabold text-slate-900 text-sm">
-                        ${order.grandTotal.toFixed(2)}
+                        {formatPrice(order.grandTotal)}
                       </span>
                     </td>
 
@@ -211,13 +216,60 @@ export const AdminOrders: React.FC = () => {
                     </td>
 
                     <td className="py-3 px-4 text-right whitespace-nowrap">
-                      <button
-                        onClick={() => setSelectedOrder(order)}
-                        className="p-1.5 text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg"
-                        title="View Full Order"
-                      >
-                        <Eye className="w-4 h-4" />
-                      </button>
+                      <div className="flex items-center justify-end gap-1">
+                        <button
+                          onClick={() => setSelectedOrder(order)}
+                          className="p-1.5 text-slate-500 hover:text-emerald-700 hover:bg-emerald-50 rounded-lg transition-colors"
+                          title="View Full Order"
+                        >
+                          <Eye className="w-4 h-4" />
+                        </button>
+
+                        <ActionMenu
+                          title={`Order ${order.orderNumber} options`}
+                          triggerClassName="p-1.5 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition-colors inline-flex items-center justify-center"
+                          menuWidth="w-52"
+                          items={[
+                            {
+                              id: 'view-order',
+                              label: 'Inspect Order Details',
+                              icon: Eye,
+                              onClick: () => setSelectedOrder(order),
+                            },
+                            {
+                              id: 'copy-num',
+                              label: 'Copy Order Number',
+                              icon: Copy,
+                              onClick: () => {
+                                navigator.clipboard?.writeText(order.orderNumber);
+                              },
+                            },
+                            {
+                              id: 'mark-delivered',
+                              label: 'Mark as Delivered',
+                              icon: CheckCircle2,
+                              disabled: order.status === 'Delivered' || updatingStatus,
+                              onClick: () => handleUpdateStatus(order.id, 'Delivered'),
+                            },
+                            {
+                              id: 'mark-shipped',
+                              label: 'Mark as Shipped',
+                              icon: Truck,
+                              disabled: order.status === 'Shipped' || updatingStatus,
+                              onClick: () => handleUpdateStatus(order.id, 'Shipped'),
+                            },
+                            {
+                              id: 'print',
+                              label: 'Print Order Receipt',
+                              icon: Printer,
+                              onClick: () => {
+                                setSelectedOrder(order);
+                                setTimeout(() => window.print(), 300);
+                              },
+                            },
+                          ]}
+                        />
+                      </div>
                     </td>
                   </tr>
                 ))}
@@ -320,12 +372,12 @@ export const AdminOrders: React.FC = () => {
                       <div>
                         <span className="font-bold text-slate-900 block">{item.name}</span>
                         <span className="text-slate-400 text-[11px]">
-                          {item.quantity} × ${item.price.toFixed(2)} ({item.unit})
+                          {item.quantity} × {formatPrice(item.price)} ({item.unit})
                         </span>
                       </div>
                     </div>
                     <span className="font-black text-slate-900">
-                      ${(item.price * item.quantity).toFixed(2)}
+                      {formatPrice(item.price * item.quantity)}
                     </span>
                   </div>
                 ))}
@@ -334,13 +386,13 @@ export const AdminOrders: React.FC = () => {
 
             {/* Price Calculations */}
             <div className="p-4 rounded-2xl bg-slate-50 border border-slate-100 text-right space-y-1">
-              <p>Subtotal: ${selectedOrder.subtotal.toFixed(2)}</p>
-              <p>Delivery Fee: ${selectedOrder.deliveryFee.toFixed(2)}</p>
+              <p>Subtotal: {formatPrice(selectedOrder.subtotal)}</p>
+              <p>Delivery Fee: {selectedOrder.deliveryFee === 0 ? 'FREE' : formatPrice(selectedOrder.deliveryFee)}</p>
               {selectedOrder.discount > 0 && (
-                <p className="text-emerald-700">Coupon Discount: -${selectedOrder.discount.toFixed(2)}</p>
+                <p className="text-emerald-700">Coupon Discount: -{formatPrice(selectedOrder.discount)}</p>
               )}
               <p className="text-base font-black text-slate-950 pt-2 border-t border-slate-200">
-                Grand Total: ${selectedOrder.grandTotal.toFixed(2)}
+                Grand Total: {formatPrice(selectedOrder.grandTotal)}
               </p>
             </div>
           </div>

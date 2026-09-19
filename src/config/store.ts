@@ -20,9 +20,9 @@ export const STORE_CONFIG: StoreInfo = {
     holidayNote: "Open Sunday through Friday for fresh groceries and daily essentials",
   },
   delivery: {
-    minimumOrder: 10,
-    standardDeliveryFee: 2.0,
-    freeDeliveryThreshold: 30,
+    minimumOrder: 300,
+    standardDeliveryFee: 70,
+    freeDeliveryThreshold: 1500,
     estimatedDeliveryTime: "Within 30–60 minutes",
     deliveryAreas: [
       "Kharendrapur",

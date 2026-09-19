@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   ShoppingBag,
@@ -22,6 +23,7 @@ import { useCart } from '../../context/CartContext';
 import { useWishlist } from '../../context/WishlistContext';
 import { STORE_CONFIG } from '../../config/store';
 import { SearchBar } from './SearchBar';
+import { formatPrice } from '../../utils/currency';
 
 export const Navbar: React.FC = () => {
   const { user, logout, isAdmin } = useAuth();
@@ -31,6 +33,33 @@ export const Navbar: React.FC = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Prevent background scroll and double-scrollbars when mobile drawer is open
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      const prevOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => {
+        document.body.style.overflow = prevOverflow;
+      };
+    }
+  }, [mobileMenuOpen]);
+
+  // Automatically close mobile menu on route navigation
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setUserDropdownOpen(false);
+  }, [location.pathname, location.search]);
+
+  // Close on Escape key press
+  useEffect(() => {
+    if (!mobileMenuOpen) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setMobileMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [mobileMenuOpen]);
 
   const handleLogout = async () => {
     await logout();
@@ -63,7 +92,7 @@ export const Navbar: React.FC = () => {
               <span>{STORE_CONFIG.openingHours.weekdays}</span>
             </div>
             <div className="hidden md:flex items-center gap-1.5 text-slate-300">
-              <span>Free local delivery on orders over ${STORE_CONFIG.delivery.freeDeliveryThreshold}!</span>
+              <span>Free local delivery on orders over {formatPrice(STORE_CONFIG.delivery.freeDeliveryThreshold)}!</span>
             </div>
           </div>
 
@@ -145,7 +174,7 @@ export const Navbar: React.FC = () => {
                   My Cart
                 </span>
                 <span className="block text-xs font-bold text-emerald-950 leading-tight">
-                  ${subtotal.toFixed(2)}
+                  {formatPrice(subtotal)}
                 </span>
               </div>
             </Link>
@@ -171,10 +200,15 @@ export const Navbar: React.FC = () => {
                   </button>
 
                   {userDropdownOpen && (
-                    <div
-                      className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-100"
-                      onClick={() => setUserDropdownOpen(false)}
-                    >
+                    <>
+                      <div
+                        className="fixed inset-0 z-40 bg-transparent cursor-default"
+                        onClick={() => setUserDropdownOpen(false)}
+                      />
+                      <div
+                        className="absolute right-0 mt-2 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 py-2 z-50 animate-in fade-in zoom-in-95 duration-100"
+                        onClick={() => setUserDropdownOpen(false)}
+                      >
                       <div className="px-4 py-2 border-b border-slate-100">
                         <p className="text-xs text-slate-400">Signed in as</p>
                         <p className="text-sm font-bold text-slate-900 truncate">{user.name}</p>
@@ -243,6 +277,7 @@ export const Navbar: React.FC = () => {
                         </button>
                       </div>
                     </div>
+                  </>
                   )}
                 </div>
               ) : (
@@ -313,132 +348,139 @@ export const Navbar: React.FC = () => {
         </div>
       </div>
 
-      {/* Mobile Drawer Sheet with Backdrop Overlay */}
-      {mobileMenuOpen && (
-        <div className="lg:hidden fixed inset-0 z-50 flex">
-          {/* Backdrop Blur */}
+      {/* Mobile Drawer Sheet with Backdrop Overlay (Portaled to document.body to break out of sticky header) */}
+      {mobileMenuOpen &&
+        createPortal(
           <div
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200"
-            onClick={() => setMobileMenuOpen(false)}
-          />
+            id="mobile-navigation-drawer"
+            className="lg:hidden fixed inset-0 z-[9999] flex isolate"
+            role="dialog"
+            aria-modal="true"
+          >
+            {/* Full Viewport Backdrop with Blur */}
+            <div
+              className="fixed inset-0 bg-slate-900/60 backdrop-blur-xs animate-in fade-in duration-200"
+              onClick={() => setMobileMenuOpen(false)}
+            />
 
-          {/* Drawer Panel */}
-          <div className="relative ml-auto w-[85%] max-w-xs bg-white h-full shadow-2xl p-5 overflow-y-auto flex flex-col justify-between z-10 animate-in slide-in-from-right duration-250">
-            <div>
-              {/* Header inside drawer */}
-              <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
-                <div className="flex items-center gap-2.5">
-                  <div className="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center">
-                    <Store className="w-4 h-4" />
-                  </div>
-                  <div>
-                    <span className="font-extrabold text-sm text-slate-900 block leading-tight">Annil</span>
-                    <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">General Store</span>
-                  </div>
-                </div>
-                <button
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
-                  aria-label="Close menu"
-                >
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              {/* User Greeting Card in Drawer */}
-              {user ? (
-                <div className="mb-4 p-3 bg-emerald-50/80 rounded-2xl border border-emerald-100 flex items-center justify-between">
-                  <div className="flex items-center gap-2.5 min-w-0">
-                    <div className="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-xs shrink-0">
-                      {user.name.charAt(0).toUpperCase()}
+            {/* Viewport-filling Drawer Panel */}
+            <div className="relative ml-auto w-[85%] max-w-xs bg-white h-[100dvh] max-h-screen shadow-2xl p-5 overflow-y-auto flex flex-col justify-between z-10 animate-in slide-in-from-right duration-250 border-l border-slate-200">
+              <div>
+                {/* Header inside drawer */}
+                <div className="flex items-center justify-between pb-4 border-b border-slate-100 mb-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-8 h-8 rounded-lg bg-emerald-700 text-white flex items-center justify-center">
+                      <Store className="w-4 h-4" />
                     </div>
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold text-slate-900 truncate">{user.name}</p>
-                      <p className="text-[10px] text-emerald-700 font-semibold capitalize">{user.role.toLowerCase()}</p>
+                    <div>
+                      <span className="font-extrabold text-sm text-slate-900 block leading-tight">Annil</span>
+                      <span className="text-[10px] font-bold text-emerald-700 uppercase tracking-wider block">General Store</span>
                     </div>
                   </div>
-                  <Link
-                    to="/account"
+                  <button
                     onClick={() => setMobileMenuOpen(false)}
-                    className="text-[11px] font-bold text-emerald-800 bg-white px-2.5 py-1 rounded-lg shadow-xs border border-emerald-200 shrink-0"
+                    className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 hover:bg-slate-100"
+                    aria-label="Close menu"
                   >
-                    Profile
-                  </Link>
+                    <X className="w-5 h-5" />
+                  </button>
                 </div>
-              ) : (
-                <div className="mb-4 p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between">
-                  <div>
-                    <p className="text-xs font-bold text-slate-900">Welcome to our store!</p>
-                    <p className="text-[10px] text-slate-500">Sign in for saved orders & wishlist</p>
+
+                {/* User Greeting Card in Drawer */}
+                {user ? (
+                  <div className="mb-4 p-3 bg-emerald-50/80 rounded-2xl border border-emerald-100 flex items-center justify-between">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <div className="w-9 h-9 rounded-full bg-emerald-700 text-white flex items-center justify-center font-bold text-xs shrink-0">
+                        {user.name.charAt(0).toUpperCase()}
+                      </div>
+                      <div className="min-w-0">
+                        <p className="text-xs font-bold text-slate-900 truncate">{user.name}</p>
+                        <p className="text-[10px] text-emerald-700 font-semibold capitalize">{user.role.toLowerCase()}</p>
+                      </div>
+                    </div>
+                    <Link
+                      to="/account"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="text-[11px] font-bold text-emerald-800 bg-white px-2.5 py-1 rounded-lg shadow-xs border border-emerald-200 shrink-0"
+                    >
+                      Profile
+                    </Link>
                   </div>
-                  <Link
-                    to="/auth"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="px-3 py-1.5 bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs"
-                  >
-                    Sign In
-                  </Link>
-                </div>
-              )}
-
-              {/* Navigation Links */}
-              <nav className="flex flex-col gap-1.5">
-                {navLinks.map(link => (
-                  <Link
-                    key={link.name}
-                    to={link.path}
-                    onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-bold transition-colors ${
-                      isActive(link.path)
-                        ? 'bg-emerald-50 text-emerald-800'
-                        : 'text-slate-700 hover:bg-slate-50'
-                    }`}
-                  >
-                    <span>{link.name}</span>
-                    {link.icon && <link.icon className="w-4 h-4 text-amber-500" />}
-                  </Link>
-                ))}
-
-                {isAdmin && (
-                  <Link
-                    to="/admin"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-sm font-bold text-emerald-900 bg-emerald-100/80 mt-2 border border-emerald-200"
-                  >
-                    <LayoutDashboard className="w-4 h-4 text-emerald-700" />
-                    <span>Store Admin Dashboard</span>
-                  </Link>
+                ) : (
+                  <div className="mb-4 p-3 bg-slate-50 rounded-2xl border border-slate-200/80 flex items-center justify-between">
+                    <div>
+                      <p className="text-xs font-bold text-slate-900">Welcome to our store!</p>
+                      <p className="text-[10px] text-slate-500">Sign in for saved orders & wishlist</p>
+                    </div>
+                    <Link
+                      to="/auth"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="px-3 py-1.5 bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-xs"
+                    >
+                      Sign In
+                    </Link>
+                  </div>
                 )}
-              </nav>
-            </div>
 
-            {/* Bottom Help & Contacts in Drawer */}
-            <div className="border-t border-slate-100 pt-4 mt-6">
-              <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">
-                Need Help Ordering?
-              </p>
-              <div className="space-y-2 text-xs">
-                <a
-                  href={`tel:${STORE_CONFIG.phone.replace(/[^0-9+]/g, '')}`}
-                  className="flex items-center gap-2 text-slate-700 font-semibold hover:text-emerald-700"
-                >
-                  <Phone className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Call {STORE_CONFIG.phone}</span>
-                </a>
-                <a
-                  href={`https://wa.me/${STORE_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="flex items-center gap-2 text-emerald-700 font-bold"
-                >
-                  <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>WhatsApp Instant Order</span>
-                </a>
+                {/* Navigation Links */}
+                <nav className="flex flex-col gap-1.5">
+                  {navLinks.map(link => (
+                    <Link
+                      key={link.name}
+                      to={link.path}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center justify-between py-2.5 px-3 rounded-xl text-sm font-bold transition-colors ${
+                        isActive(link.path)
+                          ? 'bg-emerald-50 text-emerald-800'
+                          : 'text-slate-700 hover:bg-slate-50'
+                      }`}
+                    >
+                      <span>{link.name}</span>
+                      {link.icon && <link.icon className="w-4 h-4 text-amber-500" />}
+                    </Link>
+                  ))}
+
+                  {isAdmin && (
+                    <Link
+                      to="/admin"
+                      onClick={() => setMobileMenuOpen(false)}
+                      className="flex items-center gap-2.5 py-2.5 px-3 rounded-xl text-sm font-bold text-emerald-900 bg-emerald-100/80 mt-2 border border-emerald-200"
+                    >
+                      <LayoutDashboard className="w-4 h-4 text-emerald-700" />
+                      <span>Store Admin Dashboard</span>
+                    </Link>
+                  )}
+                </nav>
+              </div>
+
+              {/* Bottom Help & Contacts in Drawer */}
+              <div className="border-t border-slate-100 pt-4 mt-6">
+                <p className="text-[10px] font-black text-slate-400 uppercase tracking-wider mb-2">
+                  Need Help Ordering?
+                </p>
+                <div className="space-y-2 text-xs">
+                  <a
+                    href={`tel:${STORE_CONFIG.phone.replace(/[^0-9+]/g, '')}`}
+                    className="flex items-center gap-2 text-slate-700 font-semibold hover:text-emerald-700"
+                  >
+                    <Phone className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Call {STORE_CONFIG.phone}</span>
+                  </a>
+                  <a
+                    href={`https://wa.me/${STORE_CONFIG.whatsapp.replace(/[^0-9]/g, '')}`}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="flex items-center gap-2 text-emerald-700 font-bold"
+                  >
+                    <MessageCircle className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>WhatsApp Instant Order</span>
+                  </a>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </header>
   );
 };

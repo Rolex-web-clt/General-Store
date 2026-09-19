@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Search, X, ChevronRight, Loader2 } from 'lucide-react';
 import { api } from '../../services/api';
 import { ImageWithFallback } from './ImageWithFallback';
+import { formatPrice } from '../../utils/currency';
 
 interface SearchBarProps {
   className?: string;
@@ -122,7 +123,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ className = '', onSearchSu
                     {item.name}
                   </p>
                   <p className="text-xs text-slate-500 flex items-center gap-1.5 mt-0.5">
-                    <span className="font-medium text-emerald-700">${item.price.toFixed(2)}</span>
+                    <span className="font-medium text-emerald-700">{formatPrice(item.price)}</span>
                     <span>•</span>
                     <span>{item.category}</span>
                     <span>•</span>

@@ -17,6 +17,7 @@ import { OrderStatusTracker } from '../components/order/OrderStatusTracker';
 import { Order } from '../types';
 import { STORE_CONFIG } from '../config/store';
 import { ImageWithFallback } from '../components/common/ImageWithFallback';
+import { formatPrice } from '../utils/currency';
 
 export const OrderSuccessPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -133,18 +134,18 @@ export const OrderSuccessPage: React.FC = () => {
               </strong>
             </p>
             <p className="text-slate-600">
-              Subtotal: <strong>${order.subtotal.toFixed(2)}</strong>
+              Subtotal: <strong>{formatPrice(order.subtotal)}</strong>
             </p>
             <p className="text-slate-600">
-              Delivery Fee: <strong>${order.deliveryFee.toFixed(2)}</strong>
+              Delivery Fee: <strong>{order.deliveryFee === 0 ? 'FREE' : formatPrice(order.deliveryFee)}</strong>
             </p>
             {order.discount > 0 && (
               <p className="text-emerald-700">
-                Discount: <strong>-${order.discount.toFixed(2)}</strong>
+                Discount: <strong>-{formatPrice(order.discount)}</strong>
               </p>
             )}
             <p className="text-base font-black text-slate-900 pt-1 border-t border-slate-200">
-              Grand Total: ${order.grandTotal.toFixed(2)}
+              Grand Total: {formatPrice(order.grandTotal)}
             </p>
           </div>
         </div>
@@ -166,12 +167,12 @@ export const OrderSuccessPage: React.FC = () => {
                   <div>
                     <span className="font-bold text-slate-800 block">{item.name}</span>
                     <span className="text-slate-400">
-                      {item.quantity} × ${item.price.toFixed(2)} ({item.unit})
+                      {item.quantity} × {formatPrice(item.price)} ({item.unit})
                     </span>
                   </div>
                 </div>
                 <span className="font-extrabold text-slate-900">
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {formatPrice(item.price * item.quantity)}
                 </span>
               </div>
             ))}
